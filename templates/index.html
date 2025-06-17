@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>🫀 Heart Disease Predictor 🫀</h1>
+
+<form method="POST" onsubmit="return validateForm();">
+    <label>Age</label>
+    <small>Enter age in years (Valid range: 1–1000)</small>
+    <input type="number" name="age" id="age" min="1" max="1000" required>
+
+    <label>Sex</label>
+    <small>Enter 1 for Male, 0 for Female</small>
+    <input type="number" name="sex" id="sex" min="0" max="1" required>
+
+    <label>Chest Pain Type</label>
+    <small>0 = Typical Angina, 1 = Atypical Angina, 2 = Non-anginal Pain, 3 = Asymptomatic</small>
+    <input type="number" name="cp" id="cp" min="0" max="3" required>
+
+    <label>Resting Blood Pressure</label>
+    <small>Enter in mm Hg (Valid range: 90–200)</small>
+    <input type="number" name="trestbps" id="trestbps" min="90" max="200" required>
+
+    <label>Serum Cholesterol</label>
+    <small>Enter in mg/dl (Valid range: 100–600)</small>
+    <input type="number" name="chol" id="chol" min="100" max="600" required>
+
+    <label>Fasting Blood Sugar</label>
+    <small>Enter 1 if > 120 mg/dl, else 0</small>
+    <input type="number" name="fbs" id="fbs" min="0" max="1" required>
+
+    <label>Resting ECG</label>
+    <small>0 = Normal, 1 = ST-T Abnormality, 2 = Left Ventricular Hypertrophy</small>
+    <input type="number" name="restecg" id="restecg" min="0" max="2" required>
+
+    <label>Maximum Heart Rate Achieved</label>
+    <small>Enter value in bpm (Valid range: 70–210)</small>
+    <input type="number" name="thalach" id="thalach" min="70" max="210" required>
+
+    <label>Exercise Induced Angina</label>
+    <small>Enter 1 = Yes, 0 = No</small>
+    <input type="number" name="exang" id="exang" min="0" max="1" required>
+
+    <label>Oldpeak</label>
+    <small>ST depression induced by exercise (Valid: 0.0–6.2)</small>
+    <input type="number" name="oldpeak" id="oldpeak" min="0" max="6.2" step="0.1" required>
+
+    <label>Slope of ST Segment</label>
+    <small>0 = Upsloping, 1 = Flat, 2 = Downsloping</small>
+    <input type="number" name="slope" id="slope" min="0" max="2" required>
+
+    <label>Number of Major Vessels Colored by Fluoroscopy (CA)</label>
+    <small>Enter a value from 0 to 3</small>
+    <input type="number" name="ca" id="ca" min="0" max="3" required>
+
+    <label>Thalassemia</label>
+    <small>1 = Normal, 2 = Fixed Defect, 3 = Reversible Defect</small>
+    <input type="number" name="thal" id="thal" min="1" max="3" required>
+
+    <button type="submit">Predict</button>
+</form>
+
+<!-- Validation script -->
+<script>
+function validateForm() {
+    let valid = true;
+    const fields = [
+        { id: 'age', min: 29, max: 77 },
+        { id: 'sex', min: 0, max: 1 },
+        { id: 'cp', min: 0, max: 3 },
+        { id: 'trestbps', min: 90, max: 200 },
+        { id: 'chol', min: 100, max: 600 },
+        { id: 'fbs', min: 0, max: 1 },
+        { id: 'restecg', min: 0, max: 2 },
+        { id: 'thalach', min: 70, max: 210 },
+        { id: 'exang', min: 0, max: 1 },
+        { id: 'oldpeak', min: 0.0, max: 6.2 },
+        { id: 'slope', min: 0, max: 2 },
+        { id: 'ca', min: 0, max: 3 },
+        { id: 'thal', min: 1, max: 3 }
+    ];
+
+    // Clear previous error messages
+    document.querySelectorAll('.error').forEach(el => el.textContent = '');
+
+    for (let field of fields) {
+        let input = document.getElementById(field.id);
+        let value = parseFloat(input.value);
+        if (isNaN(value) || value < field.min || value > field.max) {
+            document.getElementById('error-' + field.id).textContent =
+                `❌ Invalid input. Please enter a value between ${field.min} and ${field.max}.`;
+            input.focus();
+            valid = false;
+            break;
+        }
+    }
+
+    return valid;
+}
+</script>
+
+
+
+{% if result %}
+<div class="result">
+    {{ result }}
+</div>
+{% endif %}
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
